@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  api:
+    env_file: 
+      - .env
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
+    depends_on: 
+      - db
+    networks: 
+      - net
+  db:
+    env_file: 
+      - .env
+    image: "postgres:12"
+    networks: 
+      - net
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/data
+    # environment:
+    #   - POSTGRESS_USER=${DB_USER}
+    #   - POSTGRES_PASSWORD=${DB_PASSWORD}
+    #   - POSTGRES_DB=${DB_NAME}
+networks:
+  net:
+volumes:
+  db-data:
